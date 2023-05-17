@@ -7,7 +7,8 @@ import java.util.Random;
 
 public class AppTests {
     @Test
-    public void run() {
+    public void run()
+    {
         var out = new ByteArrayOutputStream();
         var ui = new ConsoleUI(TestUtils.mockScanner("username%nn%n".formatted()), new PrintStream(out));
         var factory = new QuestionFactory();
@@ -23,13 +24,18 @@ public class AppTests {
     }
 
     @Test
-    public void runSomeQuizzes() {
+    public void runSomeQuizzes()
+    {
         var out = new ByteArrayOutputStream();
-        var inputs = new String[] { "username", "y", "6", "y", "6", "n"  };
+        var inputs = new String[]
+                { "username", "y", "6", "y", "6", "n"  };
         var ui = new ConsoleUI(TestUtils.mockScanner(inputs), new PrintStream(out));
-        var mockFactory = new QuestionFactory() {
-            @Override public Question[] makeQuestions(int n) {
-                return new Question[] { new Question(TestUtils.mockRandom(new int[] { 2, 3 }))};
+        var mockFactory = new QuestionFactory()
+        {
+            @Override public Question[] makeQuestions(int n)
+            {
+                return new Question[]
+                        { new Question(TestUtils.mockRandom(new int[] { 2, 3 }))};
             }
         };
         var app = new App(ui, mockFactory);

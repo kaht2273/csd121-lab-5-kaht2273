@@ -10,23 +10,28 @@ public class ConsoleUITests {
 
     private OutputStream out;
 
-    public static Question mockQuestion(String prompt, String validityMessage, String[] resultSequence) {
+    public static Question mockQuestion(String prompt, String validityMessage, String[] resultSequence)
+    {
 
-        return new Question(new Random()) {
+        return new Question(new Random())
+        {
             private int resultIdx = 0;
 
             @Override
-            public String getPrompt() {
+            public String getPrompt()
+            {
                 return prompt;
             }
 
             @Override
-            public String getValidityMessage() {
+            public String getValidityMessage()
+            {
                 return validityMessage;
             }
 
             @Override
-            public String parseAnswer(String answer) {
+            public String parseAnswer(String answer)
+            {
                 var result = resultSequence[resultIdx];
                 resultIdx++;
                 return result;
@@ -34,12 +39,14 @@ public class ConsoleUITests {
         };
     }
 
-    @BeforeEach public void setOut() {
+    @BeforeEach public void setOut()
+    {
         this.out = new ByteArrayOutputStream();
     }
 
     @Test
-    public void promptForString() {
+    public void promptForString()
+    {
         var ui = new ConsoleUI(TestUtils.mockScanner("theinput"), new PrintStream(out));
 
         var response = ui.promptForString("testprompt");
@@ -49,8 +56,10 @@ public class ConsoleUITests {
     }
 
     @Test
-    public void confirm() {
-        String[] inputs = {
+    public void confirm()
+    {
+        String[] inputs =
+                {
                 "y",
                 "y",
                 "Y",
@@ -74,7 +83,8 @@ public class ConsoleUITests {
     }
 
     @Test
-    public void printResults() {
+    public void printResults()
+    {
         var ui = new ConsoleUI(TestUtils.mockScanner(""), new PrintStream(out));
 
         ui.printResults(new int[] { 1, 2, 3 });
@@ -83,7 +93,8 @@ public class ConsoleUITests {
     }
 
     @Test
-    public void askQuestion_worksOnCorrectAnswer() {
+    public void askQuestion_worksOnCorrectAnswer()
+    {
         var ui = new ConsoleUI(TestUtils.mockScanner("4"), new PrintStream(out));
         var q = mockQuestion("prompt", "", new String[]{Question.ANSWER_CORRECT});
         int tries = ui.askQuestion(q);
@@ -96,10 +107,12 @@ public class ConsoleUITests {
     }
 
     @Test
-    public void askQuestion_worksOnIncorrectAnswers() {
+    public void askQuestion_worksOnIncorrectAnswers()
+    {
         String[] inputs = { "5", "5", "4" };
         var ui = new ConsoleUI(TestUtils.mockScanner(inputs), new PrintStream(out));
-        var q = mockQuestion("prompt", "", new String[] { Question.ANSWER_INCORRECT, Question.ANSWER_INCORRECT, Question.ANSWER_CORRECT });
+        var q = mockQuestion("prompt", "", new String[]
+                { Question.ANSWER_INCORRECT, Question.ANSWER_INCORRECT, Question.ANSWER_CORRECT });
         int tries = ui.askQuestion(q);
 
         var output = out.toString();
@@ -110,11 +123,13 @@ public class ConsoleUITests {
     }
 
     @Test
-    public void askQuestion_worksOnInvalidAnswers() {
+    public void askQuestion_worksOnInvalidAnswers()
+    {
         String[] inputs = { "a", "a", "4" };
         var ui = new ConsoleUI(TestUtils.mockScanner(inputs), new PrintStream(out));
         String validityMessage = "validity prompt";
-        var q = mockQuestion("prompt", validityMessage, new String[] { Question.ANSWER_INVALID, Question.ANSWER_INVALID, Question.ANSWER_CORRECT });
+        var q = mockQuestion("prompt", validityMessage, new String[]
+                { Question.ANSWER_INVALID, Question.ANSWER_INVALID, Question.ANSWER_CORRECT });
         int tries = ui.askQuestion(q);
 
         var output = out.toString();

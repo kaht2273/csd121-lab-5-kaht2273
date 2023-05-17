@@ -1,9 +1,11 @@
-public class App {
+public class App
+{
 
     private ConsoleUI ui;
     private QuestionFactory questionFactory;
 
-    public App(ConsoleUI ui, QuestionFactory factory) {
+    public App(ConsoleUI ui, QuestionFactory factory)
+    {
         this.questionFactory = factory;
         this.ui = ui;
     }
